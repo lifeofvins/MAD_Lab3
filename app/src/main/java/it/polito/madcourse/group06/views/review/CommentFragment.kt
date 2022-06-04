@@ -47,7 +47,7 @@ class CommentFragment : Fragment() {
             // comments-done (recyclerView)
             recyclerViewCommentsDone.layoutManager = LinearLayoutManager(view.getContext())
             recyclerViewCommentsDone.adapter = userProfile.comments_services_done?.let { CommentsAdapterCardLong(it) }
-            if (userProfile.comments_services_done == null || userProfile.comments_services_done!!.size == 0) {
+            if (userProfile.comments_services_done.isNullOrEmpty()) {
                 sentenceCommentsDone.visibility = View.GONE
             } else {
                 sentenceCommentsDone.visibility = View.VISIBLE
@@ -56,7 +56,7 @@ class CommentFragment : Fragment() {
             // comments-rx (recyclerView)
             recyclerViewCommentsRx.layoutManager = LinearLayoutManager(view.getContext())
             recyclerViewCommentsRx.adapter = userProfile.comments_services_rx?.let { CommentsAdapterCardLong(it) }
-            if (userProfile.comments_services_rx == null || userProfile.comments_services_rx!!.size == 0) {
+            if (userProfile.comments_services_rx.isNullOrEmpty()) {
                 sentenceCommentsRx.visibility = View.GONE
             } else {
                 sentenceCommentsRx.visibility = View.VISIBLE
@@ -65,10 +65,11 @@ class CommentFragment : Fragment() {
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                sharedViewModel.updateSearchState()
-                val frag = activity?.supportFragmentManager!!.findFragmentByTag("comment_fragment")
-                activity?.supportFragmentManager?.beginTransaction()?.remove(frag!!)?.commit()
-                (requireActivity() as TBMainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
+                activity?.supportFragmentManager!!.findFragmentByTag("comment_fragment")?.also { frag ->
+                    sharedViewModel.updateSearchState()
+                    activity?.supportFragmentManager?.beginTransaction()?.remove(frag)?.commit()
+                    (requireActivity() as TBMainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp)
+                }
             }
         })
     }

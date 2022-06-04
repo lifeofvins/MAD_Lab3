@@ -21,6 +21,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.snackbar.Snackbar
 import it.polito.madcourse.group06.R
 import it.polito.madcourse.group06.models.advertisement.Advertisement
+import it.polito.madcourse.group06.models.userprofile.UserProfile
 import it.polito.madcourse.group06.viewmodels.AdvertisementViewModel
 import it.polito.madcourse.group06.viewmodels.SharedViewModel
 import it.polito.madcourse.group06.viewmodels.UserProfileViewModel
@@ -139,19 +140,19 @@ class EditSingleTimeslot : Fragment(R.layout.edit_time_slot_details_fragment) {
                 findNavController().navigate(R.id.action_editTimeSlotDetailsFragment_to_ShowListTimeslots)
             }
 
-            // Button for adding a new skill
-            this.newSkillChip.setOnClickListener {
-                showNewSkillInputWindow(requireContext(), this.skillsChips)
-            }
-
             // Skills
             userProfileViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+                // Button for adding a new skill
+                this.newSkillChip.setOnClickListener {
+                    showNewSkillInputWindow(requireContext(), this.skillsChips,user)
+                }
+
                 if (!user.skills.isNullOrEmpty()) {
                     this.skillsChips.removeAllViews()
                     user.skills?.forEach { skill ->
                         this.skillsChips.addChipWithCheck(requireContext(), skill, selectedSkillsList.contains(skill))
                     }
-                    this.skillsChips.addPlusChip(requireContext(), this.skillsChips)
+                    this.skillsChips.addPlusChip(requireContext(), this.skillsChips,user)
                 }
             }
 
@@ -340,7 +341,7 @@ class EditSingleTimeslot : Fragment(R.layout.edit_time_slot_details_fragment) {
         }
     }
 
-    private fun ChipGroup.addPlusChip(context: Context, chipGroup: ChipGroup) {
+    private fun ChipGroup.addPlusChip(context: Context, chipGroup: ChipGroup,user:UserProfile) {
         Chip(context).apply {
             id = R.id.editProfileAddNewSkillChip
             text = "+"
@@ -349,7 +350,7 @@ class EditSingleTimeslot : Fragment(R.layout.edit_time_slot_details_fragment) {
             isCheckedIconVisible = false
             isFocusable = false
             setOnClickListener {
-                showNewSkillInputWindow(requireContext(), chipGroup)
+                showNewSkillInputWindow(requireContext(), chipGroup,user)
             }
             addView(this)
         }
@@ -361,7 +362,7 @@ class EditSingleTimeslot : Fragment(R.layout.edit_time_slot_details_fragment) {
      * @param context current context
      * @param chipGroup the related chip group in which the new skill will be added
      */
-    private fun showNewSkillInputWindow(context: Context, chipGroup: ChipGroup) {
+    private fun showNewSkillInputWindow(context: Context, chipGroup: ChipGroup,user:UserProfile) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this.context)
         val newSkillTitle = EditText(this.context)
         val linearLayout = LinearLayout(this.context)
@@ -383,9 +384,8 @@ class EditSingleTimeslot : Fragment(R.layout.edit_time_slot_details_fragment) {
             if (newSkillTitleLabel.isNotEmpty()) {
                 this.skillsChips.removeView(view?.findViewById(R.id.editProfileAddNewSkillChip))
                 chipGroup.addChipWithCheck(context, newSkillTitleLabel, true)
-                this.skillsChips.addPlusChip(context, this.skillsChips)
+                this.skillsChips.addPlusChip(context, this.skillsChips,user)
 
-                val user = userProfileViewModel.currentUser.value!!
                 user.skills?.add(newSkillTitleLabel)
                 userProfileViewModel.editUserProfile(user)
 

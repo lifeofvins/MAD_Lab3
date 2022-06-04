@@ -55,8 +55,9 @@ class RatingFragment : Fragment() {
 
         view.findViewById<ConstraintLayout>(R.id.background_rating).setOnClickListener {
             // go back to timeslots list
-            val frag = activity?.supportFragmentManager!!.findFragmentByTag("rating_fragment")
-            activity?.supportFragmentManager?.beginTransaction()?.remove(frag!!)?.commit()
+            activity?.supportFragmentManager!!.findFragmentByTag("rating_fragment")?.also { frag ->
+                activity?.supportFragmentManager?.beginTransaction()?.remove(frag)?.commit()
+            }
         }
 
         val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
@@ -77,10 +78,9 @@ class RatingFragment : Fragment() {
                 override fun handleOnBackPressed() {
                     if (ratingBar.rating == 0F) {
                         // go back to timeslots list
-                        val frag =
-                            activity?.supportFragmentManager!!.findFragmentByTag("rating_fragment")
-                        activity?.supportFragmentManager?.beginTransaction()?.remove(frag!!)
-                            ?.commit()
+                        activity?.supportFragmentManager!!.findFragmentByTag("rating_fragment")?.also { frag ->
+                            activity?.supportFragmentManager?.beginTransaction()?.remove(frag)?.commit()
+                        }
                     } else {
                         submitRatingButton.performClick()
                     }
@@ -124,11 +124,9 @@ class RatingFragment : Fragment() {
                                         advertisementViewModel.deactivateAd(isServiceDone)
 
                                         // go back to timeslots list
-                                        val frag =
-                                            activity?.supportFragmentManager!!.findFragmentByTag("rating_fragment")
-                                        activity?.supportFragmentManager?.beginTransaction()
-                                            ?.remove(frag!!)
-                                            ?.commit()
+                                        activity?.supportFragmentManager!!.findFragmentByTag("rating_fragment")?.also { frag ->
+                                            activity?.supportFragmentManager?.beginTransaction()?.remove(frag)?.commit()
+                                        }
                                     }
                                 }
                             }

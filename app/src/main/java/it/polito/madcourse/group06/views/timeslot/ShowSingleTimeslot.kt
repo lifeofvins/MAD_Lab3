@@ -144,10 +144,12 @@ class ShowSingleTimeslot : Fragment(R.layout.time_slot_details_fragment) {
                 if (isMine) {
                     if (singleAdvertisement.rxUserId.isNullOrEmpty() && singleAdvertisement.ratingUserId.isNullOrEmpty()) {
                         // timeslot can be modified as it is not active
-                        val frag = activity?.supportFragmentManager!!.findFragmentByTag("single_timeslot")
-                        activity?.supportFragmentManager?.beginTransaction()?.remove(frag!!)?.commit()
-                        Navigation.findNavController(view)
-                            .navigate(R.id.action_ShowListTimeslots_to_editTimeSlotDetailsFragment)
+                        activity?.supportFragmentManager!!.findFragmentByTag("single_timeslot")?.also { frag ->
+                            activity?.supportFragmentManager?.beginTransaction()?.remove(frag)
+                                ?.commit()
+                            Navigation.findNavController(view)
+                                .navigate(R.id.action_ShowListTimeslots_to_editTimeSlotDetailsFragment)
+                        }
                     } else {
                         // timeslot cannot be modified as it is active
                         Snackbar.make(
@@ -159,9 +161,12 @@ class ShowSingleTimeslot : Fragment(R.layout.time_slot_details_fragment) {
                      * Call to a chat with this user
                      */
                     myChatViewModel.fetchChatByAdvertisementID(currentAccountID, otherAccountID, singleAdvertisement.id!!)
-                    val frag = activity?.supportFragmentManager!!.findFragmentByTag("single_timeslot")
-                    activity?.supportFragmentManager?.beginTransaction()?.remove(frag!!)?.commit()
-                    Navigation.findNavController(view).navigate(R.id.action_ShowListTimeslots_to_myChat)
+                    activity?.supportFragmentManager!!.findFragmentByTag("single_timeslot")?.also { frag ->
+                        activity?.supportFragmentManager?.beginTransaction()?.remove(frag)
+                            ?.commit()
+                        Navigation.findNavController(view)
+                            .navigate(R.id.action_ShowListTimeslots_to_myChat)
+                    }
                 }
             }
         }
