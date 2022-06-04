@@ -124,7 +124,7 @@ class MyChat : Fragment() {
                     SimpleDateFormat(
                         "dd/MM/yyyy hh:mm",
                         Locale.getDefault()
-                    ).format(Date()).toString(), false
+                    ).format(Date()).toString(), false, 0
                 )
                 this.listOfMessages.add(msg)
                 myChatViewModel.addNewMessage(this.chatID, this.listOfMessages)
@@ -162,7 +162,7 @@ class MyChat : Fragment() {
                     SimpleDateFormat(
                         "dd/MM/yyyy hh:mm",
                         Locale.getDefault()
-                    ).format(Date()).toString(), true
+                    ).format(Date()).toString(), true, 0
                 )
                 this.listOfMessages.add(msg)
                 myChatViewModel.addNewMessage(this.chatID, this.listOfMessages)

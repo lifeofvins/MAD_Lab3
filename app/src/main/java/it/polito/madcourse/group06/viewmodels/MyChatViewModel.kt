@@ -143,7 +143,7 @@ class MyChatViewModel(application: Application) : AndroidViewModel(application) 
     private fun ArrayList<HashMap<Any, Any>>.toMyMessageArray(): ArrayList<MyMessage> {
         val out: ArrayList<MyMessage> = ArrayList()
         for (value in this) {
-            val myMessage = MyMessage("", "", "", "", "", 0.0, "", false)
+            val myMessage = MyMessage("", "", "", "", "", 0.0, "", false, 0)
             myMessage.senderID = value["sender_id"] as String
             myMessage.receiverID = value["receiver_id"] as String
             myMessage.msg = value["msg"] as String
@@ -152,8 +152,14 @@ class MyChatViewModel(application: Application) : AndroidViewModel(application) 
             myMessage.duration = value["duration"] as Double
             myMessage.timestamp = value["timestamp"] as String
             myMessage.isAnOffer = value["is_an_offer"] as Boolean
+            myMessage.hasItBeenAccepted = value["has_it_been_accepted"] as Int
             out.add(myMessage)
         }
         return out
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        listenerRegistration.remove()
     }
 }

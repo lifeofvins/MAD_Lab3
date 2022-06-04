@@ -17,4 +17,6 @@
     <color name="other_bubble">#DFDFDF</color>
     <color name="my_bubble">#005EA1</color>
     <color name="my_bubble_end">#0086E6</color>
+    <color name="accept_color">#3F9C29</color>
+    <color name="reject_color">#98322B</color>
 </resources>
