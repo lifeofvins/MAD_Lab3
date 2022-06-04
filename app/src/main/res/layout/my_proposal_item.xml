@@ -8,6 +8,24 @@
     android:layout_marginBottom="@dimen/distance_between_messages"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/myPurposeHasItBeenAccepted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/accept_color"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:text="ACCEPTED"
+        android:textAlignment="center"
+        android:textColor="@color/darkGray"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/myMessageContainerProposalID"
         android:layout_width="wrap_content"
