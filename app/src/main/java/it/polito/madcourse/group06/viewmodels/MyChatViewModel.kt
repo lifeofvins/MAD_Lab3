@@ -157,4 +157,9 @@ class MyChatViewModel(application: Application) : AndroidViewModel(application) 
         }
         return out
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        listenerRegistration.remove()
+    }
 }
